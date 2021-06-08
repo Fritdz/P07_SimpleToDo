@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -49,10 +50,15 @@ public class MainActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newTask = etTask.getText().toString();
-                alTasks.add(newTask);
-                aatodo.notifyDataSetChanged();
-                etTask.setText("");
+                if (!(etTask.getText().toString()).isEmpty()){
+                    String newTask = etTask.getText().toString();
+                    alTasks.add(newTask);
+                    aatodo.notifyDataSetChanged();
+                    etTask.setText("");
+                } else {
+                    Toast.makeText(MainActivity.this, "Please enter a task", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -68,10 +74,24 @@ public class MainActivity extends AppCompatActivity {
         btnDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int delTask = Integer.parseInt((etTask.getText().toString()));
-                alTasks.remove(delTask);
-                aatodo.notifyDataSetChanged();
-                etTask.setText("");
+
+                if (!(etTask.getText().toString()).isEmpty()){
+                    int delTask = Integer.parseInt((etTask.getText().toString()));
+                    if (alTasks.isEmpty()){
+                        Toast.makeText(MainActivity.this, "You don't have any task to remove", Toast.LENGTH_SHORT).show();
+
+                    } else if (delTask>=alTasks.size()){
+                        Toast.makeText(MainActivity.this, "Wrong index number", Toast.LENGTH_SHORT).show();
+
+                    } else{
+                        alTasks.remove(delTask);
+                        aatodo.notifyDataSetChanged();
+                    }
+                    etTask.setText("");
+                } else {
+                    Toast.makeText(MainActivity.this, "Please enter an index", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
